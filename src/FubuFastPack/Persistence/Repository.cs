@@ -10,6 +10,7 @@ using FubuFastPack.Querying;
 using NHibernate;
 using NHibernate.Criterion;
 using NHibernate.Linq;
+using ReflectionHelper = FubuCore.Reflection.ReflectionHelper;
 
 namespace FubuFastPack.Persistence
 {
@@ -70,17 +71,17 @@ namespace FubuFastPack.Persistence
 
         public IQueryable<T> Query<T>()
         {
-            return _session.Linq<T>();
+            return _session.Query<T>();
         }
 
         public IQueryable<T> Query<T>(Expression<Func<T, bool>> where)
         {
-            return _session.Linq<T>().Where(where);
+            return _session.Query<T>().Where(where);
         }
 
         public IQueryable<T> Query<T>(IQueryExpression<T> queryExpression) where T : DomainEntity
         {
-            return queryExpression.Apply(_session.Linq<T>());
+            return queryExpression.Apply(_session.Query<T>());
         }
 
         public void Save(object target)
@@ -107,7 +108,7 @@ namespace FubuFastPack.Persistence
 
         public T FindBy<T>(Expression<Func<T, bool>> where)
         {
-            return _session.Linq<T>().FirstOrDefault(where);
+            return _session.Query<T>().FirstOrDefault(where);
         }
 
     }
